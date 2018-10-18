@@ -22,8 +22,9 @@ class App {
     })
 
     router.get('/oauth', (req, res) => {
-      const redirect = req.protocol + "://" + req.get('host') + '/oauth-cb/'
-      const reauthUrl = req.protocol + "://" + req.get('host') + '/reauth/'
+      const protocol = req.get('host').includes('localhost') ? 'http' : 'https'
+      const redirect = protocol + "://" + req.get('host') + '/oauth-cb/'
+      const reauthUrl = protocol + "://" + req.get('host') + '/reauth/'
       const runAuth = async function() {
         await storage.init();
         const existingToken = await storage.getItem('fbauth-ll-token')
