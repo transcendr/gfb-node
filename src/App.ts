@@ -5,7 +5,6 @@
  */
 import * as express from 'express'
 import fetch from 'node-fetch';
-var fs = require('fs');
 const storage = require('node-persist');
 
 class App {
