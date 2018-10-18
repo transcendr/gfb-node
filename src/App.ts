@@ -131,6 +131,51 @@ class App {
       run()
     })
 
+    router.get("/set-hook/build", (req, res) => {
+      const run = async function() {
+        await storage.init();
+        if(!!req.query.url)
+          await storage.setItem('set-build-www', req.query.url)
+        const hook = await storage.getItem('set-build-www')
+        if(!!hook){
+          res.type('html')
+          res.send('The current build hook URL is set: '+hook)
+        }else{
+          res.type('html')
+          res.send('There is no build hook set.  Please visit <strong>/set-hook/build/?url=NETLIFY_BUILD_HOOK_URL</strong> in browser to set it.')
+        }
+      }
+      run()
+    })
+
+    router.get("/hook/build", (req, res) => {
+      const run = async function() {
+        await storage.init();
+        const hookUrl = await storage.getItem('set-build-www')
+        if(!!hookUrl){
+          fetch(hookUrl,{
+              method: 'POST'
+            })
+            .then((response) => {
+              res.send(`Build hook processed!  The request has been sent and received by the deployment system 
+                        and it should take approximately 1 minute to fully rebuild the site.  Check the Netlify 
+                        admin panel under site > "deploys" for the status of the build.`)
+            })
+            .catch(e => {
+              res.send('Build Hook Error', e.message)
+            })
+        }else{
+          res.type('html')
+          res.send('There is no build hook set.  Please visit <strong>/set-hook/build/?url=NETLIFY_BUILD_HOOK_URL</strong> in browser to set it.')
+        }
+      }
+      run()
+    })
+
+    router.get('/rebuild', (req, res) => {
+      res.redirect('/hook/build')
+    })
+
     this.express.use('/', router)
   }
 }
