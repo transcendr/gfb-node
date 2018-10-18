@@ -1,1 +1,1 @@
-web: node ./bin/www
+web: forever ./bin/www
