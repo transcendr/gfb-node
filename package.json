@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "forever ./bin/www",
     "build": "tsc",
     "dev": "tsc --watch & nodemon dist",
     "dev-client": "node .bin/www & nodemon dist",
     "test": "tsc && mocha dist/**/*.spec.js",
     "lint": "eslint src --ext ts",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "heroku-prebuild": "echo Running Typescript Build Process",
+    "heroku-postbuild": "echo `dist` directory built && ls dist",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "Bryan McConnahea {bryan@iocharged.com}",
@@ -19,6 +22,7 @@
     "@types/node": "7.0.22",
     "express": "4.15.3",
     "facebook-nodejs-business-sdk": "^3.1.4",
+    "forever": "^0.15.3",
     "node-fetch": "^2.2.0",
     "node-persist": "^3.0.1",
     "nodemon": "1.11.0",
