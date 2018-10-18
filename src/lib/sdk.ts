@@ -1,6 +1,6 @@
 const sdk = require("facebook-nodejs-business-sdk");
 const accessToken =
-  "EAAn4L3S8ykMBAG2u7a14KZAeuZA2K2lfPg8g5mVp4unBszGuNdpWwz9NifKbLlD33FZC2e5rfnKbYYtjSoOfDCavfZAZBFM9YKZA9l6SYHEOkAtne3AfVUKZBs52oFQMZAmJG0qT3eXGGEvv2rH4FWLgYNnQq3eedZAuVZCo3twKKCqmk0qEp23XsTpKUTGBtZAgRqoeP1YwDYFtQZDZD";
+  "EAAn4L3S8ykMBAP7kCUyEqO1ZCrzG0kI30xAZCdToFwsrc9tZAdDu1yRo2tLqWENU0ul1ZCFMXQPRUqU2YpZAXGZBaJ4b2hY7spxkDpX2ul7W2kH9j1VknLSnvFDLkznfxdZCvmeDbqbO2QxSROjOPaKmi9U4KMpcb3tgMGrhwOjYRkuOGg5NZASaAt928s5V5bv6o29XvRP9OAZDZD";
 sdk.FacebookAdsApi.init(accessToken);
 const AdAccount = sdk.AdAccount;
 

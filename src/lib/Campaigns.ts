@@ -54,9 +54,9 @@ export const buildGatsbySourceData = async () => {
   return sourceData;
 };
 
-(async function() {
-  const sourceData = await buildGatsbySourceData();
-  console.log(JSON.stringify(sourceData));
-})();
+// (async function() {
+//   const sourceData = await buildGatsbySourceData();
+//   console.log(JSON.stringify(sourceData));
+// })();
 
 module.exports = buildGatsbySourceData;
