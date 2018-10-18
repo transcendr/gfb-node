@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "forever ./bin/www",
+    "start": "node ./bin/www",
     "build": "tsc",
     "dev": "tsc --watch & nodemon dist",
     "dev-client": "node .bin/www & nodemon dist",

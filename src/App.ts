@@ -6,6 +6,7 @@
 import * as express from 'express'
 import fetch from 'node-fetch';
 const storage = require('node-persist');
+import buildGatsbySourceData  from "./lib/Campaigns";
 
 class App {
   public express
@@ -18,7 +19,16 @@ class App {
   private mountRoutes (): void {
     const router = express.Router()
     router.get('/', (req, res) => {
-      res.redirect('https://facebook.com')
+      fetch('http://quotes.rest/qod.json')
+        .then(x => x.json())
+        .then(x => {
+          res.set('html')
+          res.send(`<p><i>"${x.contents.quotes[0].quote}</i>...."</p><p>- ${x.contents.quotes[0].author}</p>`)
+        })
+        .catch(e => {
+          res.set('html')
+          res.send('<p><i>"If you don\'t have confidence, you\'ll always find a way not to win..."</i></p><p>- Carl Lewis</p>')
+        })
     })
 
     router.get('/oauth', (req, res) => {
@@ -80,8 +90,45 @@ class App {
       }
     })
 
-    router.get("/llat-cb", (req, res) => {
-      res.send(JSON.stringify(req.query))
+    router.get("/A203003943948", (req, res) => {
+      console.log(typeof buildGatsbySourceData)
+      console.log('Building source datas...')
+      const run = async function() {
+        const sourceData = await buildGatsbySourceData();
+        res.send(sourceData)
+      }
+      run()  
+    })
+
+    router.get("/set-acct/:acctId", (req, res) => {
+      const run = async function() {
+        await storage.init();
+        await storage.setItem('fbauth-acctid', req.params.acctId)
+        const setAccount = await storage.getItem('fbauth-acctid')
+        if(!!setAccount){
+          res.type('html')
+          res.send('Success! The current account is: '+setAccount)
+        }else{
+          res.type('html')
+          res.send('There is no account set.  Please visit /set-acct/{account ID} in browser to set it.')
+        }
+      }
+      run()
+    })
+
+    router.get("/set-acct", (req, res) => {
+      const run = async function() {
+        await storage.init();
+        const existingAcct = await storage.getItem('fbauth-acctid')
+        if(!!existingAcct){
+          res.type('html')
+          res.send('The current account is: '+existingAcct)
+        }else{
+          res.type('html')
+          res.send('There is no account set.  Please visit /set-acct/{account ID} in browser to set it.')
+        }
+      }
+      run()
     })
 
     this.express.use('/', router)
