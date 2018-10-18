@@ -39,15 +39,17 @@ class App {
     })
 
     router.get('/reauth', (req, res) => {
-      const redirect = req.protocol + "://" + req.get('host') + '/oauth-cb/'
+      const protocol = req.get('host').includes('localhost') ? 'http' : 'https'
+      const redirect = protocol + "://" + req.get('host') + '/oauth-cb/'
       res.redirect(`https://www.facebook.com/v3.1/dialog/oauth?client_id=2806157496076867&redirect_uri=${redirect}&scope=ads_management`)
     })
 
     router.get('/oauth-cb', (req, res) => {
       const clientId = '2806157496076867'
       const appSecret = '8dfd4059c0e83a75cd778ee9a7c5ec1f'
-      const redirect = req.protocol + "://" + req.get('host') + '/oauth-cb/'
-      const retryUrl = req.protocol + "://" + req.get('host') + '/oauth/'
+      const protocol = req.get('host').includes('localhost') ? 'http' : 'https'
+      const redirect = protocol + "://" + req.get('host') + '/oauth-cb/'
+      const retryUrl = protocol + "://" + req.get('host') + '/oauth/'
       const authCode = req.query.code
       let longLiveTokenUrl = `https://graph.facebook.com/v3.1/oauth/access_token?client_id=${clientId}&redirect_uri=${redirect}&client_secret=${appSecret}&code=${authCode}`
       if(!!authCode){
