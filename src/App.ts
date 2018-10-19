@@ -55,8 +55,8 @@ class App {
     })
 
     router.get('/oauth-cb', (req, res) => {
-      const clientId = '2213485038928193'
-      const appSecret = 'c7c1a3645065e59a912cbe12308562ed'
+      const clientId = '2806157496076867'
+      const appSecret = '8dfd4059c0e83a75cd778ee9a7c5ec1f'
       const protocol = req.get('host').includes('localhost') ? 'http' : 'https'
       const redirect = protocol + "://" + req.get('host') + '/oauth-cb/'
       const retryUrl = protocol + "://" + req.get('host') + '/oauth/'
